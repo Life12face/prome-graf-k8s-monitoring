@@ -147,7 +147,7 @@ sudo su -
 # Initialize Kubernates master by executing below commond.
 
 kubeadm init
-
+sudo snap install kubeadm --classic
 # If you want to initialize kubernetes on Public EndPoint(Not recommended in real time). You can use below option Replace PUBLIC_IP with actual public ip of your kubernetes master node (Recommended to use Elastic(Create and assign elastic IP to master node and use that Elastic IP below)).Replace PORT with 6443 (API Server Port). 
 
 kubeadm init --control-plane-endpoint "PUBLIC_IP:PORT"
