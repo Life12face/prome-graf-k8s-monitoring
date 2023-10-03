@@ -1,6 +1,6 @@
 #!/bin/bash
 #i1) Switch to root user [ sudo -i]
-
+suso -i 
 sudo hostnamectl set-hostname  node1
 
 #2) Disable swap & add kernel settings
@@ -35,7 +35,7 @@ apt-get update -y
 apt-get install ca-certificates curl gnupg lsb-release -y
 
 #Note: We are not installing Docker Here.Since containerd.io package is part of docker apt repositories hence we added docker repository & it's key to download and install containerd.
-# Add Docker’s official GPG key:
+# Add Docker’s official GPG key: GPG KEYS IS HERE
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
@@ -47,8 +47,8 @@ echo \
 
 # Install containerd
 
-apt-get update -y
-apt-get install containerd.io -y
+sudo apt-get update -y
+sudo apt-get install containerd.io -y
 ############################################
 #sudo apt-get update -y
 #sudo apt-get install containerd.io -y
@@ -67,8 +67,8 @@ sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config
 
 # Restart and enable containerd service
 
-systemctl restart containerd
-systemctl enable containerd
+sudo systemctl restart containerd
+sudo systemctl enable containerd
 
 #5) Installing kubeadm, kubelet and kubectl
 
@@ -99,6 +99,10 @@ apt-mark hold kubelet kubeadm kubectl
 systemctl daemon-reload
 systemctl start kubelet
 systemctl enable kubelet.service
+#Install kubeadm
+sudo apt install kubeadm kubelet kubectl
+sudo systemctl enable kubelet
+sudo systemctl start kubelet
 
 # initialise the control plane
 kubeadm init 
@@ -115,7 +119,7 @@ kubeadm init --pod-network-cidr=172.31.45.3/16 #OR kubeadm token create --print-
 
 sudo systemctl status containerd
 
-mkdir -p $HOME/.kube  
+sudo mkdir -p $HOME/.kube  
 
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config  
 
